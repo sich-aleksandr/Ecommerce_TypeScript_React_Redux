@@ -21,7 +21,7 @@ export interface Good{
     
     }
     
-      request = (url:string, params?:{categoryTypeIds:string,ids?:string, text?:string}) => {
+      request = (url:string, params?:{categoryTypeIds?:string,ids?:string, text?:string}) => {
     const urlParams = new URLSearchParams(params).toString();
   
     return fetch(`${url}?${urlParams}`).then((response) => {
@@ -42,6 +42,9 @@ export interface Good{
     
   getGoodsByCategory=(categoryTypeId:string):Promise<{ items: Good[]; total: number }>=>{
     return this.request(this.endPoints.goods,{categoryTypeIds:`${categoryTypeId}`})
+  }
+  getGoodByID=(GoodTypeId:string):Promise<{ item: Good[] }>=>{
+    return this.request(this.endPoints.goods,{ids:`${GoodTypeId}`})
   }
   getGoods=():Promise<{ items: Good[]; total: number }>=>{
     return this.request(this.endPoints.goods)

@@ -1,0 +1,1 @@
+export {SelectedCategoryPage} from './SelectedCategoryPage'

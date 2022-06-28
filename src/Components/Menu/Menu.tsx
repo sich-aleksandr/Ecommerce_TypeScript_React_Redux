@@ -14,8 +14,7 @@ export const MenuCategories: React.FC = () => {
 
   return (
     <>
-      {/* <Space>
-    
+      <Space>
         <Button  onClick={data.showDrawer}>
          <MenuOutlined />
         </Button>
@@ -26,13 +25,13 @@ export const MenuCategories: React.FC = () => {
         onClose={data.onClose}
         visible={data.visible}
         key={data.placement}
-      > */}
+      >
         <Menu>
           {data.loading&&<Spinner/>}
           {data.error&&<ErrorMassage/>}
           {data.loaded&& data.menuItems.map((item)=><MenuItem key={item.id}><Link to={`/category/${item.id}`}>{item.label}</Link></MenuItem>)}     
         </Menu>
-      {/* </Drawer> */}
+      </Drawer>
     </>
   );
 };
