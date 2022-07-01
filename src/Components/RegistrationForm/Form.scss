@@ -154,8 +154,10 @@ textarea {
 
 .button-container {
   display: flex;
+  justify-content: space-between;
   height: 36px;
   margin-top: 12px;
+  
 }
 
 .btn {
@@ -179,4 +181,13 @@ textarea {
     border-color: #000;
     cursor: not-allowed;
   }
+}
+.input-container-flex {
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+  & input {
+    align-self:unset;
+  }
+
 }

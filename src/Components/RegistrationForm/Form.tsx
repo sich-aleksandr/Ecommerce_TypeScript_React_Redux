@@ -2,51 +2,47 @@ import React, { useState, useEffect } from "react";
 import { useInput } from "./Custom/useInput";
 import { LOAD_STATUSES } from "./constants";
 import { Spinner } from "Components/commons/spinner";
+import css from './form.module.css'
 import "./Form.scss";
-
 
 export const RegistrationForm = () => {
   const name = useInput("", { isEmpty: true, isName: true });
+  const sname = useInput("", { isEmpty: true, isName: true });
+  const pass1 = useInput("", { isEmpty: true, isPass: true });
+  const pass2 = useInput("", { isEmpty: true, isPass: true });
   const email = useInput("", { isEmpty: true, isEmail: true });
-  const phone = useInput("", { isEmpty: true, isPhone: true });
+  const sex = useInput("", { isEmpty: true, isEmail: true });
   const dateBith = useInput("", { isEmpty: true, isDate: true });
-  const massage = useInput("", {
-    isEmpty: true,
-    minLenght: 10,
-    maxLenght: 300,
-    isMassage: true,
-  });
 
   const [formSended, setFormSended] = useState(LOAD_STATUSES.UNKNOWN);
 
   useEffect(() => {
+    document.title = "Регистрация";
+  }, []);
+
+  useEffect(() => {
     if (formSended === LOAD_STATUSES.LOADED) {
-        name.onClean();
-        email.onClean();
-        phone.onClean();
-        dateBith.onClean();
-        massage.onClean();
+      name.onClean();
+      email.onClean();
+      dateBith.onClean();
       setTimeout(() => setFormSended(LOAD_STATUSES.UNKNOWN), 3000);
     }
   }, [formSended]);
 
   const postDataHandler = (event: React.SyntheticEvent<EventTarget>) => {
     event.preventDefault();
+    setFormSended(LOAD_STATUSES.LOADED);
+  };
 
-    const data = {
-      name: name.value,
-      email: email.value,
-      phone: phone.value,
-      dateBith: dateBith.value,
-      massage: massage.value,
-    };
-
+  const cancelDataHandler = (event: React.SyntheticEvent<EventTarget>) => {
+    event.preventDefault();
+    setFormSended(LOAD_STATUSES.LOADED);
   };
 
   return (
     <>
       <form className="form">
-        <span className="form__title">Форма обратной связи</span>
+        <span className="form__title">Регистрация</span>
         <span className="form__subhead">Пожалуйста заполните все поля</span>
         <div className="input-container">
           <input
@@ -62,13 +58,34 @@ export const RegistrationForm = () => {
             }
             htmlFor="login"
           >
-            Имя и Фамилия
+            Имя
           </label>
 
           {name.isDirty && name.isEmpty && (
             <div className="form__allert">Имя не должно быть пустым</div>
           )}
           {name.isDirty && name.nameError && (
+            <div className="form__allert">Ошибка при написании имени</div>
+          )}
+        </div>
+        <div className="input-container">
+          <input
+            type="text"
+            id="slogin"
+            onChange={sname.onChange}
+            onBlur={sname.onBlure}
+            value={sname.value.toUpperCase()}
+          />
+          <label
+            className={
+              !sname.isDirty ? "input-label" : "input-label input-label-pass"
+            }
+            htmlFor="slogin"
+          >
+            Фамилия
+          </label>
+
+          {sname.isDirty && sname.nameError && (
             <div className="form__allert">Ошибка при написании имени</div>
           )}
         </div>
@@ -97,31 +114,88 @@ export const RegistrationForm = () => {
         </div>
         <div className="input-container">
           <input
-            type="tel"
-            id="tel"
-            onChange={phone.onChange}
-            onBlur={phone.onBlure}
-            value={phone.value}
+            type="password"
+            id="pass1"
+            onChange={pass1.onChange}
+            onBlur={pass1.onBlure}
+            value={pass1.value}
           />
-
           <label
             className={
-              !phone.isDirty ? "input-label" : "input-label input-label-pass"
+              !pass1.isDirty ? "input-label" : "input-label input-label-pass"
             }
-            htmlFor="tel"
+            htmlFor="pass1"
           >
-            Телефон: +7(888)-888-88-88
+            Пароль
           </label>
-
-          {phone.isDirty && phone.isEmpty && (
-            <div className="form__allert">
-              Поле c телефоном не может быть пустым
-            </div>
+          {pass1.isDirty && pass1.isEmpty && (
+            <div className="form__allert">Пароль не может быть пустым</div>
           )}
-          {phone.isDirty && phone.phoneError && (
-            <div className="form__allert">Не правильный номер телефона</div>
+          {pass1.isDirty && pass1.isPass && (
+            <div className="form__allert">Короткий пароль</div>
           )}
         </div>
+        <div className="input-container">
+          <input
+            type="password"
+            id="pass2"
+            onChange={pass2.onChange}
+            onBlur={pass2.onBlure}
+            value={pass2.value}
+          />
+          <label
+            className={
+              !pass2.isDirty ? "input-label" : "input-label input-label-pass"
+            }
+            htmlFor="pass1"
+          >
+            Повторите Пароль
+          </label>
+          {pass2.isDirty && pass2.isEmpty && (
+            <div className="form__allert">Пароль не может быть пустым</div>
+          )}
+          {pass2.isDirty && pass2.isPass && (
+            <div className="form__allert">Короткий пароль</div>
+          )}
+          {!(pass2.value === pass1.value) && (
+            <div className="form__allert">Пароли не совпадают</div>
+          )}
+        </div>
+        <div className="input-container-flex">
+          <input
+            type="radio"
+            name="sex"
+            id="sexChoice1"
+            onChange={sex.onChange}
+            value={sex.value}
+          />
+          <label
+            htmlFor="sexChoice1"
+          >
+            Мужской
+          </label>
+          <input
+            type="radio"
+            name="sex"
+            id="sexChoice2"
+            onChange={sex.onChange}
+            value={sex.value}
+          />
+          <label
+            htmlFor="sexChoice2"
+          >
+            Женский
+          </label>
+        </div>
+        <div className="input-container-flex">
+        <label className={css.switch}>
+        <input type="checkbox"/>
+        <span className={css.slider}></span>
+        
+      </label>
+            <span>Подписаться на новости</span>
+        </div>
+
         <div className="input-container">
           <input
             type="date"
@@ -149,50 +223,23 @@ export const RegistrationForm = () => {
         {dateBith.isDirty && dateBith.dateError && (
           <div className="form__allert">Не верная дата рождения</div>
         )}
-        <div className="input-container">
-          <textarea
-            id="message"
-            name="message"
-            cols={40}
-            rows={3}
-            onChange={massage.onChangeArea}
-            onBlur={massage.onBlureArea}
-            value={massage.value}
-          />
-          <label
-            className={
-              !massage.isDirty ? "input-label" : "input-label input-label-pass"
-            }
-            htmlFor="message"
-          >
-            Сообщение
-          </label>
-          {massage.isDirty && massage.isEmpty && (
-            <div className="form__allert">
-              Поле c сообщением не может быть пустым
-            </div>
-          )}
-          {massage.isDirty && massage.minLenghtError && (
-            <div className="form__allert">Слишком коротко</div>
-          )}
-          {massage.isDirty && massage.maxLenghtError && (
-            <div className="form__allert">Слишком длинно</div>
-          )}
-        </div>
+
         <div className="button-container">
           <button
             className="btn"
             disabled={
               !email.inputValid ||
               !name.inputValid ||
-              !phone.inputValid ||
-              !massage.inputValid ||
+              !(pass2.value === pass1.value) ||
               !dateBith.inputValid ||
               formSended === LOAD_STATUSES.LOADING
             }
             onClick={(e) => postDataHandler(e)}
           >
-            Отправить
+            Зарегистрироваться
+          </button>
+          <button className="btn" onClick={cancelDataHandler}>
+            Отмена
           </button>
           {formSended === LOAD_STATUSES.LOADING && <Spinner />}
         </div>

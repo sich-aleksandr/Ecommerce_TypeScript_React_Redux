@@ -24,7 +24,7 @@ export const GoodsPage:React.FC=()=>{
       title:'Goods',
       dataIndex:'label',
       key:'id',
-      render:(label:string, record:any)=>{return <Link to={`${record.categoryTypeId}/${record.id}`}>{label}</Link>}
+      render:(label:string, record:any)=>{return <Link to={record.id}>{label}</Link>}
     },
     {
       title:'Description',

@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router";
 import { Header } from "Components/Header";
+import { GoodsCart } from "Components/Cart";
 import { RegistrationForm } from "Components/RegistrationForm";
 import { MenuCategories } from "Components/Menu";
 import { GoodsPage } from "Components/GoodsPage";
@@ -17,9 +18,12 @@ export const MainPage = () => {
       <Routes>
         <Route path="/" element={<CategoryPage/>} />
         <Route path="/goods" element={<GoodsPage />} />
+        <Route path="/goods/:idGood" element={<ProductPage/>} />
         <Route path="/registration" element={<RegistrationForm />} />
+        <Route path="/cart" element={<GoodsCart />} />
         <Route path="/test" element={<ProductPage />} />
         <Route path="/category/:idCategory" element={<SelectedCategoryPage/>} />
+        <Route path="/category/:idCategory/:idGood" element={<ProductPage/>} />
         <Route path="/:idGood" element={<ProductPage/>} />
       </Routes>
       <Footer />

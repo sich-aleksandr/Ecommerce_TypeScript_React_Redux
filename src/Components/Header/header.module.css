@@ -79,3 +79,25 @@
 .link::before {
     transition: width 0.35s;
 }
+
+.cartDiv {
+    position: relative;
+    display: inline-block;
+    padding-right: 20px;
+  }
+  
+.imgcart {
+    width: 4rem;
+  }
+  
+.spanCart {
+    position: absolute;
+    right: 0.1rem;
+    top: 0.7rem;
+    background: tomato;
+    color: white;
+    border-radius: 50%;
+    font-size: 90%;
+    padding: 0.4rem;
+    margin-right: 20px;
+  }
