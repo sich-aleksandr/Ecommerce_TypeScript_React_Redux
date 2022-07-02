@@ -7,10 +7,10 @@ export const GoodsCart: React.FC = () => {
   const dispatch = useDispatch();
   const goodInCart = useSelector(CartSelectors.getCart);
   const [isCartEmpry, setCartEmpry] = useState(true);
-  const addGoodToCart = (id: number) => dispatch(CartActions.addToCart({ id }));
-  const removeGoodToCart = (id: number) =>
+  const addGoodToCart = (id: string) => dispatch(CartActions.addToCart({ id }));
+  const removeGoodToCart = (id: string) =>
     dispatch(CartActions.removeFromCart({ id }));
-  const removeGoodToCartAll = (id: number) =>
+  const removeGoodToCartAll = (id: string) =>
     dispatch(CartActions.removeFromCartAll({ id }));
   const data = goodInCart;
 
@@ -21,17 +21,17 @@ export const GoodsCart: React.FC = () => {
   }, [data, isCartEmpry]);
 
   const buttonAddHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
-    const id: number = +event.currentTarget.id;
+    const id: string = event.currentTarget.id;
     addGoodToCart(id);
   };
   const buttonRemoveHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
-    const id: number = +event.currentTarget.id;
+    const id: string = event.currentTarget.id;
     removeGoodToCart(id);
   };
   const buttonRemoveHandlerAll = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
-    const id: number = +event.currentTarget.id;
+    const id: string = event.currentTarget.id;
     removeGoodToCartAll(id);
   };
 
@@ -117,13 +117,13 @@ export const GoodsCart: React.FC = () => {
           </div>
           <div>
             Сумма:
-            {data.reduce((sum, good) => {
-              if (typeof good.price === "undefined") {
+            {/* {data.reduce((sum, good) => {
+              if (typeof good.good.price === "undefined") {
                 return 0;
               } else {
-                return sum + good.count * +good.price;
+                return sum + good.count * +good.good.price;
               }
-            }, 0)}
+            }, 0)} */}
           </div>
         </>
       )}

@@ -10,7 +10,7 @@ export const getLoadStatus = (state: rootStore): LOAD_STATUSES =>
 export const getCart = (state: rootStore): State["cart"] =>
   getCartSlice(state).cart;
 
-export const getGoodById = (id: number) => (
+export const getGoodById = (id: string) => (
   state: rootStore
 ): State["cart"][number] | undefined => {
   return getCart(state).find(({ id: cartId }) => cartId === id);

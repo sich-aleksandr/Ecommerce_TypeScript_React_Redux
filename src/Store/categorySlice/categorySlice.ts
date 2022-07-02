@@ -13,10 +13,11 @@ const initialState: State = {
   category:{
     items:[
       {categoryTypeId:'',
+      description: '',
   id:'',
   img:'',
   label:'',
-  price:NaN,}
+  price:'',}
     ],
  total:NaN
   

@@ -1,4 +1,3 @@
-import React from 'react'
 import { useSelector, useDispatch } from "react-redux";
 import {useParams,useNavigate} from 'react-router-dom'
 import {useEffect} from 'react'
@@ -14,6 +13,8 @@ export const useSelectedCategoryPage = () => {
   const loading=useSelector(selectorsCategory.getIsLoadingSeletor)
   const error=useSelector(selectorsCategory.getIsErrorSeletor)
   const loaded=useSelector(selectorsCategory.getIsLoadedSeletor)
+
+
 
   useEffect (()=>{
     dispatch(actions.fetchCategory(idCategory))

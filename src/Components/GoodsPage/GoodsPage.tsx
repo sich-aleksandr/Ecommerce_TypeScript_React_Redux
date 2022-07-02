@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { Link } from 'react-router-dom';
 import { Table } from 'antd';
 import { useGoodsPage } from './useGoodsPage';
@@ -8,6 +8,11 @@ import { ErrorMassage } from 'Components/commons/errorMassage';
 export const GoodsPage:React.FC=()=>{
 
   const data=useGoodsPage()
+
+  useEffect(() => {
+    document.title = 'Все товары';
+  }, [data]);
+
 
   const columns=[
     {

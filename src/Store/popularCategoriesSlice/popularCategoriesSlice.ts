@@ -13,10 +13,11 @@ const initialState: State = {
   popularCategories:[{
     items:[
       {categoryTypeId:'',
+      description:'',
   id:'',
   img:'',
   label:'',
-  price:NaN,}
+  price:'',}
     ],
  category:{
    type:'',

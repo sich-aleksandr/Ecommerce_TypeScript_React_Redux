@@ -1,23 +1,45 @@
 
-export interface Good{
-    categoryTypeId: string,
-    id:string,
-    img:string,
-    label:string,
-    price:number,
-  }
-  export interface Category {
-     type:string,
-     label:string,
-     id:string,
-  }
-  
+export interface Category {
+  id: string;
+  type: string;
+  label: string;
+}
+
+export interface Good {
+  categoryTypeId: string;
+  description: string;
+  id: string;
+  img: string;
+  label: string;
+  price: string;
+}
+
+export interface GoodInCart {
+  good?: Good;
+  count: number;
+  id: string; 
+}
+
+export interface GoodsSearch {
+  ids: string; // выбрать по id, exmaple ids=1,2,3
+  categoryTypeIds: string; // выбрать по id категория, example categoryTypeIds=1,2,3
+  minPrice: number; // выбрать с ценой не более максимально указанной
+  maxPrice: number; // выбрать с ценой не менее минимально указанной
+  text: string; // выбрать по содержанию указанной подстроки в названии
+  limit: number; // количество возвращаемых товаров, по умолчанию 20
+  offset: number; // смещение относительно начала.
+  sortBy: keyof Good; // по какому полю бек сортирует товары, по умолчанию по id
+  sortDirection: 'asc' | 'desc'; // как сортировать asc - по возрастанию desc - по убыванию, по умолчанию asc
+}
+
+
   export class Api {
   
     endPoints={
       goods:'/api/goods',
       categories:'/api/categories',
       popular_categories:'/api/popular_categories',
+      cart:'/api/cart',
     
     }
     
@@ -31,15 +53,9 @@ export interface Good{
       throw new Error('some error');
     });
   };
-  /*getResource = async (url:string):Promise<{categories:Category []}> => {
-      const res = await fetch(`${url}`);
-  
-      if (!res.ok) {
-        throw new Error(`Could not fetch ${url}` + `, received ${res.status}`);
-      }
-      return await res.json();
-    };*/
-    
+
+
+
   getGoodsByCategory=(categoryTypeId:string):Promise<{ items: Good[]; total: number }>=>{
     return this.request(this.endPoints.goods,{categoryTypeIds:`${categoryTypeId}`})
   }
@@ -51,6 +67,9 @@ export interface Good{
   }
   getCategories=():Promise<{categories:Category []}>=>{
     return this.request(this.endPoints.categories)
+  }
+  getCart=():Promise<{cart:GoodInCart []}>=>{
+    return this.request(this.endPoints.cart)
   }
   getPopularCategories=():Promise<{ category: Category; items: Good[] }[]>=>{
     return this.request(this.endPoints.popular_categories)

@@ -1,28 +1,41 @@
+import { Api, GoodInCart } from "Api/api";
 import { LOAD_STATUSES } from "Components/Constants";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+
+const api= new Api ();
+
 
 export interface State {
+  cart: GoodInCart[];
   loadStatus: LOAD_STATUSES;
-  cart: {
-    id: number;
-    name?: string;
-    img?: string;
-    price?: string;
-    count: number;
-  }[];
-}
-const initialState: State = {
-  loadStatus: LOAD_STATUSES.UNKNOWN,
-  cart: [
- 
-  ]
 };
+
+const initialState: State = {
+  cart: [
+    {
+    good:{
+      price: "",
+      id: "",
+      label: "",
+      img: "",
+      description: '',
+      categoryTypeId: ''
+    },
+    count: 0,
+    id: "",
+  }
+  ],
+  loadStatus: LOAD_STATUSES.UNKNOWN,
+};
+
+const fetchCart=createAsyncThunk("Cart/fetchCart", api.getCart);
+
 
 export const { name, actions, reducer } = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addToCart: (state, action: PayloadAction<{ id: number, name?: string, img?: string, price?: string }>) => {
+    addToCart: (state, action: PayloadAction<{ id: string}>) => {
       const goodIdx = state.cart.findIndex(
         (good) => good.id === action.payload.id
       );
@@ -30,7 +43,7 @@ export const { name, actions, reducer } = createSlice({
       if (goodIdx === -1) {
         return {
           ...state,
-          cart: [...state.cart, { id: action.payload.id, name:action.payload.name, img:action.payload.img, price:action.payload.price, count: 1 }]
+          cart: [...state.cart, { id: action.payload.id,  count: 1 }]
         };
       }
 
@@ -47,7 +60,7 @@ export const { name, actions, reducer } = createSlice({
       };
     },
 
-    removeFromCart: (state, action: PayloadAction<{ id: number }>) => {
+    removeFromCart: (state, action: PayloadAction<{ id: string }>) => {
       return {
         ...state,
         cart: state.cart
@@ -62,7 +75,7 @@ export const { name, actions, reducer } = createSlice({
           .filter((good) => good.count > 0)
       };
     },
-    removeFromCartAll: (state, action: PayloadAction<{ id: number }>) => {
+    removeFromCartAll: (state, action: PayloadAction<{ id: string }>) => {
       return {
         ...state,
         cart: state.cart
@@ -77,5 +90,23 @@ export const { name, actions, reducer } = createSlice({
           .filter((good) => good.count > 0)
       };
     }
+  },
+  extraReducers:(builder)=>{
+    builder.addCase(fetchCart.pending,(state)=>{
+       state.loadStatus = LOAD_STATUSES.LOADING;
+    })
+    builder.addCase(fetchCart.rejected,(state)=>{
+       state.loadStatus = LOAD_STATUSES.ERROR;
+    })
+    builder.addCase(fetchCart.fulfilled,(state,action)=>{
+      state.cart = action.payload.cart;
+       state.loadStatus = LOAD_STATUSES.LOADED;
+    })
+
   }
 });
+
+
+export const actionsFetch = {
+  fetchCart
+};

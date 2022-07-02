@@ -3,6 +3,7 @@ import {Good} from 'Api/api'
 import {CardItem} from '../Card'
 import css from './goodCategory.module.css'
 import {List, Divider } from 'antd';
+import { Link } from 'react-router-dom';
 
 
 interface GoodCategory{
@@ -24,7 +25,9 @@ const data = items.slice(0,4)
    renderItem={item => (
       <div>
       <List.Item>
-        <CardItem label={item.label} id={item.id} price={item.price} img={item.img}/>
+         <Link to={item.id}>
+        <CardItem label={item.label} id={item.id} price={+item.price} img={item.img}/>
+        </Link>
       </List.Item></div>
     )}
    >

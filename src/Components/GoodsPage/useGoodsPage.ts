@@ -16,6 +16,7 @@ export const useGoodsPage = () => {
    dispatch(actions.fetchAllGoods())
    dispatch(actionsCategories.actions.fetchCategories())
   },[dispatch]);
+
   return {
     allGoods,
     loading,

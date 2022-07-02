@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useInput } from "./Custom/useInput";
+import { actionsCategories, selectorsCategories } from "Store/categoriesSlice";
 import { LOAD_STATUSES } from "./constants";
 import { Spinner } from "Components/commons/spinner";
-import css from './form.module.css'
+import css from "./form.module.css";
 import "./Form.scss";
 
 export const RegistrationForm = () => {
@@ -13,6 +15,13 @@ export const RegistrationForm = () => {
   const email = useInput("", { isEmpty: true, isEmail: true });
   const sex = useInput("", { isEmpty: true, isEmail: true });
   const dateBith = useInput("", { isEmpty: true, isDate: true });
+
+  const categorys = useSelector(selectorsCategories.getTrancformCategory);
+  const loading = useSelector(selectorsCategories.getIsLoadingSeletor);
+  const loaded = useSelector(selectorsCategories.getIsLoadedSeletor);
+  const error = useSelector(selectorsCategories.getIsErrorSeletor);
+
+  console.log(categorys);
 
   const [formSended, setFormSended] = useState(LOAD_STATUSES.UNKNOWN);
 
@@ -36,6 +45,7 @@ export const RegistrationForm = () => {
 
   const cancelDataHandler = (event: React.SyntheticEvent<EventTarget>) => {
     event.preventDefault();
+    window.location.href = "/";
     setFormSended(LOAD_STATUSES.LOADED);
   };
 
@@ -169,11 +179,7 @@ export const RegistrationForm = () => {
             onChange={sex.onChange}
             value={sex.value}
           />
-          <label
-            htmlFor="sexChoice1"
-          >
-            Мужской
-          </label>
+          <label htmlFor="sexChoice1">Мужской</label>
           <input
             type="radio"
             name="sex"
@@ -181,19 +187,27 @@ export const RegistrationForm = () => {
             onChange={sex.onChange}
             value={sex.value}
           />
-          <label
-            htmlFor="sexChoice2"
-          >
-            Женский
-          </label>
+          <label htmlFor="sexChoice2">Женский</label>
+        </div>
+        <div className="input-container">
+          <label>Выберите хотя-бы 2 категории</label>
+          {categorys.map(({ label, id }) => {
+            return (
+              <div className={css.categoryContainer}>
+                <input type="checkbox" id={id} name={id}></input>
+                <label className={css.categoryLable} htmlFor={id}>
+                  {label}
+                </label>
+              </div>
+            );
+          })}
         </div>
         <div className="input-container-flex">
-        <label className={css.switch}>
-        <input type="checkbox"/>
-        <span className={css.slider}></span>
-        
-      </label>
-            <span>Подписаться на новости</span>
+          <label className={css.switch}>
+            <input type="checkbox" />
+            <span className={css.slider}></span>
+          </label>
+          <span>Подписаться на новости</span>
         </div>
 
         <div className="input-container">
@@ -215,6 +229,17 @@ export const RegistrationForm = () => {
             Дата рождения
           </label>
         </div>
+
+        <div className="input-container-flex">
+          <label htmlFor="cars">Секретный вопрос</label>
+          <select name="cars" id="cars">
+            <option value="petName">Имя питомца</option>
+            <option value="surName">Девичья фамилия матери</option>
+            <option value="mercedes">Любимый фильм</option>
+          </select>
+          <input type="text" />
+        </div>
+
         {dateBith.isDirty && dateBith.isEmpty && (
           <div className="form__allert">
             Поле c датой рождения не может быть пустым

@@ -1,23 +1,23 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
 import { Card } from 'antd';
 
 
-interface Card {
+interface productCard {
   id: string,
   label:string,
   img:string,
   price:number
 }
-export const CardItem:React.FC<Card>=({id,img,price,label})=>{
-  const { Meta } = Card;
+export const CardItem:React.FC<productCard>=({id,img,price,label})=>{
+  
   return(
-    <Card
+    <Card 
+    title={label} bordered={false}
     hoverable
     style={{ width: 240 }}
     cover={<img alt="example" src={img} />}
   >
-    <Meta title={price} description={<Link to={id}>{label}</Link>} />
+    {<span>Цена: {price} </span>}
   </Card>
 
   )
