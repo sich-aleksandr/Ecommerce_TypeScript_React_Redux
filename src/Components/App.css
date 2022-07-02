@@ -27,6 +27,9 @@
 .App-link {
   color: #61dafb;
 }
+.cart-count {
+  padding: 5px;
+}
 
 @keyframes App-logo-spin {
   from {

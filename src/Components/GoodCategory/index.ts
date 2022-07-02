@@ -1,0 +1,1 @@
+export {GoodCategory} from './GoodCategory'
