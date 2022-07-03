@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router";
 import { Header } from "Components/Header";
 import { GoodsCart } from "Components/Cart";
 import { RegistrationForm } from "Components/RegistrationForm";
+import { LoginPage } from "Components/LoginPage"
 import { MenuCategories } from "Components/Menu";
 import { GoodsPage } from "Components/GoodsPage";
 import { CategoryPage } from 'Components/CategoryPage'
@@ -24,6 +25,7 @@ export const MainPage = () => {
         <Route path="/" element={<CategoryPage/>} />
         <Route path="/goods" element={<GoodsPage />} />
         <Route path="/goods/:idGood" element={<ProductPage/>} />
+        <Route path="/login" element={<LoginPage/>} />
         <Route path="/registration" element={<RegistrationForm />} />
         <Route path="/cart" element={<GoodsCart />} />
         <Route path="/test" element={<ProductPage />} />

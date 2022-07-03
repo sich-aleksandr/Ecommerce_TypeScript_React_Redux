@@ -1,1 +1,2 @@
-export {actions, reducer} from './authoriationSlice'
+export {actionss, reducer} from './authoriationSlice'
+export * as selectorsUser from './selectorsAutoriation'

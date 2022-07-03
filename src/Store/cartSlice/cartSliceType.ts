@@ -11,20 +11,7 @@ export interface State {
 };
 
 const initialState: State = {
-  cart: [
-    {
-    good:{
-      price: "",
-      id: "",
-      label: "",
-      img: "",
-      description: '',
-      categoryTypeId: ''
-    },
-    count: 0,
-    id: "",
-  }
-  ],
+  cart: [],
   loadStatus: LOAD_STATUSES.UNKNOWN,
 };
 
