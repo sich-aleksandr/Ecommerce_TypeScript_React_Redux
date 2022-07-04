@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
-import { actions as CartActions } from "Store/cartSlice";
+import {useParams} from 'react-router-dom'
+import { CartActions } from "Store/cartSlice";
 import { Api } from "Api/api";
 import { Image } from "antd";
 
@@ -22,38 +22,26 @@ interface oneGood {
 }
 export const ProductPage = () => {
   const [good, setGood] = useState<Good | undefined>(undefined);
-  const { idGood } = useParams() as { idGood: string };
+  const {idGood}=useParams() as {idGood:string};
 
+  const dispatch = useDispatch<any>();
 
+ const addToCartGood = (data: any) =>
+ dispatch(CartActions.addToCart(data));
 
-  const dispatch = useDispatch();
-
-  let id: string;
-  let name: string;
-  let img: string;
-  let price: string;
-
-  if (typeof good?.items[0].id === "undefined") {
-    id = '';
-  } else {
-    id = good?.items[0].id;
-    name = good?.items[0].label;
-    img = good?.items[0].img;
-    price = good?.items[0].price;
-  }
-
-  const addGoodToCart = () =>
-    dispatch(CartActions.addToCart({ id }));
+ const addGoodToCart = (event: React.SyntheticEvent<EventTarget>) => {
+  const data =   {good: good?.items[0], count: 1, id:good?.items[0].id };
+  addToCartGood(data);
+  console.log(data);
+  
+};
 
   useEffect(() => {
     api.getGoodByID(idGood).then((items: any) => setGood(items));
   }, [idGood]);
 
-  useEffect(() => {
-    (typeof name === 'undefined') ?  document.title = '' : document.title = name;
-    }, [ good?.items[0].label ]);
+  console.log(good?.items[0].img);
 
- 
   return (
     <>
       <h1>{good?.items[0].label}</h1>

@@ -13,7 +13,7 @@ export const useGoodsPage = () => {
   const error=useSelector(selectorsAllGoods.getIsErrorSeletor)
 
   useEffect (()=>{
-   dispatch(actions.fetchAllGoods())
+   dispatch(actions.fetchAllGoods({limit:'100', offset:'0'}))
    dispatch(actionsCategories.actions.fetchCategories())
   },[dispatch]);
 

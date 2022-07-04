@@ -8,14 +8,15 @@ import { Input } from "./Input";
 import logo from "./logo.jpg";
 import css from "./header.module.css";
 import { Button } from "antd";
-
+ 
 export const Header = () => {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const goodInCart = useSelector(CartSelectors.getCart);
+  const goodInCart = useSelector(CartSelectors.getGoodsInCart);
   const userAuthStatus = useSelector(selectorsUser.getLoadIsAuth);
   const getLogout = () => dispatch(actionsAuthoriation.userLogOut());
+  const userLoginName = useSelector(selectorsUser.getAuthUserName)
 
   const logOutHandler = (event: React.SyntheticEvent<EventTarget>) => {
     getLogout();
@@ -45,15 +46,17 @@ export const Header = () => {
         <Link className={css.link} to="/login">
           Войти
         </Link>
-      </div> : <div className={css.item}> 
-      Спасибо что вы снами
+      </div> : <div className={css.user}> 
+      <span>Спасибо что вы снами <b>{userLoginName}</b></span>
+      <div>
       <Button
       type="primary"
       onClick={logOutHandler}>
         Выйти
       </Button>
+      </div>
       </div>}
-      {userAuthStatus && (
+      {!userAuthStatus && (
         <div className={css.cartDiv}>
           <Link className={css.link} to="/cart">
             <img

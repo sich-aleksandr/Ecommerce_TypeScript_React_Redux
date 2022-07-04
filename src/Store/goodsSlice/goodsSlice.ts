@@ -25,7 +25,13 @@ const initialState: State = {
   loadStatus:LOAD_STATUSES.UNKNOWN
 };
 
-const fetchAllGoods=createAsyncThunk("AllGoods/fetchAllGoods", api.getGoods);
+const fetchAllGoods=createAsyncThunk("AllGoods/fetchAllGoods", 
+async ({limit, offset, sortBy, sortDirection}:{limit:string, offset:string, sortBy?: keyof Good, sortDirection?: "asc" | "desc"}) => {
+  const result = await api.getGoods({limit, offset, sortBy, sortDirection});
+  return result;
+}); 
+
+
 
 export const {reducer}=createSlice({
   name:'goods',

@@ -4,6 +4,7 @@ export const getUserAuthSlice = (state) => state.userAuth;
 
 export const getLoadStatus = (state) => state.userAuth.loadStatus;
 export const getLoadIsAuth = (state) => state.userAuth.userAuth;
+export const getAuthUserName = (state) => state.userAuth.user.login;
 
 export const isLoading = (state) =>
   getLoadStatus(state) === LOAD_STATUSES.LOADING;

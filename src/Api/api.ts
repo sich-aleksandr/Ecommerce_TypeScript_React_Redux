@@ -19,7 +19,7 @@ export interface Good {
 }
 
 export interface GoodInCart {
-  good?: Good;
+  good: Good;
   count: number;
   id: string;
 }
@@ -47,14 +47,25 @@ export class Api {
 
   request = (
     url: string,
-    params?: { categoryTypeIds?: string; ids?: string; text?: string },
+    params?: { categoryTypeIds?: string; 
+      ids?: string; 
+      text?: string; 
+  //     minPrice?: number; 
+  // maxPrice?: number; 
+  limit?: string; 
+  offset?: string; 
+  sortBy?: keyof Good; 
+  sortDirection?: "asc" | "desc";
+    },
     method?: any,
     data?: any,
   ) => {
+    
     const urlParams = new URLSearchParams(params).toString();
 
     return fetch(`${url}?${urlParams}`,{
       method: method || null,
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data) || null,
     }).then((response) => {
       if (response.ok) {
@@ -74,8 +85,8 @@ export class Api {
   getGoodByID = (GoodTypeId: string): Promise<{ item: Good[] }> => {
     return this.request(this.endPoints.goods, { ids: `${GoodTypeId}` });
   };
-  getGoods = (): Promise<{ items: Good[]; total: number }> => {
-    return this.request(this.endPoints.goods);
+  getGoods = ({limit,offset, sortBy, sortDirection}:{limit?:string, offset:string, sortBy?: keyof Good,  sortDirection?: "asc" | "desc"}): Promise<{ items: Good[]; total: number }> => {
+    return this.request(this.endPoints.goods, { limit:limit,offset:offset, sortBy:sortBy, sortDirection:sortDirection });
   };
   getGoodsSearch = (text: string): Promise<{ items: Good[] }> => {
     return this.request(this.endPoints.goods, { text: `${text}` });
@@ -85,6 +96,9 @@ export class Api {
   };
   getCart = (): Promise<{ cart: GoodInCart[] }> => {
     return this.request(this.endPoints.cart);
+  };
+  putCart = (data:GoodInCart  ): Promise<GoodInCart> => {
+    return this.request(this.endPoints.cart, {}, "PUT", data );
   };
   getPopularCategories = (): Promise<
     { category: Category; items: Good[] }[]
