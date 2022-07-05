@@ -49,7 +49,7 @@ export const useValidation = (value: string, validations: validations) => {
             reName.test(String(value).toLowerCase()) ? setNameError(false) :setNameError(true)
           break;
         case "isPass":
-            const rePass = /[A-Za-z0-9]{6,}/;
+            const rePass = /[A-Za-z0-9]{5,}/;
             rePass.test(String(value).toLowerCase()) ? setPassError(false) :setPassError(true)
           break;
         case "isPhone":

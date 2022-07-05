@@ -1,0 +1,24 @@
+ul {
+    margin: 0;
+}
+.input {
+    width: 300px;
+    margin-left: 12px;
+    height: auto;
+    box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    
+}
+
+.ul {
+    position: absolute;
+    z-index: 2;
+    background: #fff;
+    width: inherit;
+    padding: 10px;
+    box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    list-style-type: none;
+}
+
+.nodata {
+    position: absolute;
+}

@@ -1,3 +1,3 @@
-// export * as goodSelectors from './categorySlice/selectorsCategory'
-// export { actions} from "./categorySlice/sliceCategory";
+export { selectorsUser } from './authoriationSlice'
+export { actionss as actionsAuthoriation } from "./authoriationSlice";
 export { store } from './store'

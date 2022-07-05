@@ -1,17 +1,28 @@
 import { LOAD_STATUSES } from "Components/Constants";
-import { rootStore } from "../store";
+import { RootStore } from "../store";
 import { State } from "./cartSliceType";
 
-export const getCartSlice = (state: rootStore): State => state.cart;
+export const getCartSlice = (state: RootStore): State => state.cart;
+export const getLoadStatus = (state: RootStore): LOAD_STATUSES =>
+    getCartSlice(state).loadStatus;
 
-export const getLoadStatus = (state: rootStore): LOAD_STATUSES =>
-  getCartSlice(state).loadStatus;
+export const getGoodsInCart = (state: RootStore) =>
+    getCartSlice(state).cart;
 
-export const getCart = (state: rootStore): State["cart"] =>
-  getCartSlice(state).cart;
+export const getGoodById = (cartId : string) => (
+    state: RootStore
+) => {
+  return getGoodsInCart(state).find(({id}) => cartId === id);
+};
 
-export const getGoodById = (id: string) => (
-  state: rootStore
-): State["cart"][number] | undefined => {
-  return getCart(state).find(({ id: cartId }) => cartId === id);
+export const getIsLoadingSelector = (state: RootStore) => {
+  return getLoadStatus(state) === LOAD_STATUSES.LOADING;
+};
+
+export const getIsLoadedSelector = (state: RootStore) => {
+  return getLoadStatus(state) === LOAD_STATUSES.LOADED;
+};
+
+export const getIsErrorSelector = (state: RootStore) => {
+  return getLoadStatus(state) === LOAD_STATUSES.ERROR;
 };
