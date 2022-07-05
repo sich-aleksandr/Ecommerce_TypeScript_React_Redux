@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Routes, Route } from "react-router";
+import { Routes, Route} from "react-router";
 import { Header } from "Components/Header";
 import { GoodsCart } from "Components/Cart";
 import { RegistrationForm } from "Components/RegistrationForm";
@@ -12,11 +12,10 @@ import { ProductPage } from "Components/ProductPage";
 import { Footer } from "Components/Footer";
 
 export const MainPage = () => {
-
   useEffect(() => {
     document.title = "Main page";
-  }, []);
-
+  },[]);
+ 
   return (
     <>
       <Header />

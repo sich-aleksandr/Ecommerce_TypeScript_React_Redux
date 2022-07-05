@@ -35,11 +35,11 @@ export const Header = () => {
               Главная
             </Link>
           </li>
-          <li className={css.item}>
+          {userAuthStatus && <li className={css.item}>
             <Link className={css.link} to="/goods">
               Все товары
             </Link>
-          </li>
+          </li>}
         </ul>
       </nav>
       { !userAuthStatus ? <div className={css.item}>
@@ -56,7 +56,7 @@ export const Header = () => {
       </Button>
       </div>
       </div>}
-      {!userAuthStatus && (
+      {userAuthStatus && (
         <div className={css.cartDiv}>
           <Link className={css.link} to="/cart">
             <img

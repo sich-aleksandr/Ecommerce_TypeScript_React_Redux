@@ -8,43 +8,43 @@ export const GoodsCart = () => {
   const goodInCart = useSelector(CartSelectors.getGoodsInCart);
   const [isCartEmpry, setCartEmpry] = useState(true);
 
- console.log(goodInCart);
-
-  useEffect (()=>{
+  useEffect(() => {
     dispatch(CartActions.fetchCart());
-   },[]);
-  
-   const data = goodInCart.map( (goodInCart) => {
+  }, [dispatch]);
+
+  useEffect(() => {
+    document.title = "Корзина"
+    }, [])
+
+  const data = goodInCart.map((goodInCart) => {
     return {
       id: goodInCart.id,
       count: goodInCart.count,
       lable: goodInCart.good.label,
       price: goodInCart.good.price,
       img: goodInCart.good.img,
-    }
-  } );
-console.log(data);
-
+    };
+  });
   useEffect(() => {
     if (data.length === 0) {
       setCartEmpry(false);
     } else setCartEmpry(true);
   }, [data, isCartEmpry]);
 
-  // const buttonAddHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   const id: number = +event.currentTarget.id;
-  //   addGoodToCart(id);
-  // };
-  // const buttonRemoveHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   const id: number = +event.currentTarget.id;
-  //   removeGoodToCart(id);
-  // };
-  // const buttonRemoveHandlerAll = (
-  //   event: React.MouseEvent<HTMLButtonElement>
-  // ) => {
-  //   const id: number = +event.currentTarget.id;
-  //   removeGoodToCartAll(id);
-  // };
+  const incrGoodInCart = (good) => dispatch(CartActions.addToCart(good));
+  const decGoodInCart = (good) => dispatch(CartActions.decGoodInCart(good));
+  const removeGoodInCart = (good) =>
+    dispatch(CartActions.removeGoodInCart(good));
+
+  const buttonAddHandler = ({ currentTarget }) => {
+    incrGoodInCart(goodInCart.find(({ id }) => currentTarget.id === id));
+  };
+  const buttonRemoveHandler = ({ currentTarget }) => {
+    decGoodInCart(goodInCart.find(({ id }) => currentTarget.id === id));
+  };
+  const buttonRemoveHandlerAll = ({ currentTarget }) => {
+    removeGoodInCart(goodInCart.find(({ id }) => currentTarget.id === id));
+  };
 
   const columns = [
     {
@@ -75,14 +75,26 @@ console.log(data);
       render: (id, record) => {
         return (
           <>
-            {/* <button id={id} onClick={buttonAddHandler}>
+            <button id={id} onClick={buttonAddHandler}>
               +
-            </button> */}
+            </button>
             <span className="cart-count">{record.count}</span>
-            {/* <button id={id} onClick={buttonRemoveHandler}>
+            <button id={id} onClick={buttonRemoveHandler}>
               -
-            </button> */}
+            </button>
           </>
+        );
+      },
+    },
+    {
+      title: "",
+      dataIndex: "id",
+      key: "id",
+      render: (id, record) => {
+        return (
+          <button id={id} onClick={buttonRemoveHandlerAll}>
+            X
+          </button>
         );
       },
     },
@@ -95,7 +107,6 @@ console.log(data);
         return <span>{totalP}</span>;
       },
     },
-
   ];
 
   return (

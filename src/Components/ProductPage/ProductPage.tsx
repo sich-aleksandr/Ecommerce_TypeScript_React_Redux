@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import {useParams} from 'react-router-dom'
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { selectorsUser } from "Store";
 import { CartActions } from "Store/cartSlice";
 import { Api } from "Api/api";
 import { Image } from "antd";
@@ -22,25 +23,22 @@ interface oneGood {
 }
 export const ProductPage = () => {
   const [good, setGood] = useState<Good | undefined>(undefined);
-  const {idGood}=useParams() as {idGood:string};
+  const { idGood } = useParams() as { idGood: string };
+  const userAuthStatus = useSelector(selectorsUser.getLoadIsAuth);
 
   const dispatch = useDispatch<any>();
+  useEffect(() => {
+    document.title = good?.items[0].label || "Страница не найдена";
+  }, [good]);
 
- const addToCartGood = (data: any) =>
- dispatch(CartActions.addToCart(data));
-
- const addGoodToCart = (event: React.SyntheticEvent<EventTarget>) => {
-  const data =   {good: good?.items[0], count: 1, id:good?.items[0].id };
-  addToCartGood(data);
-  console.log(data);
-  
-};
-
+  const addToCartGood = (data: any) => dispatch(CartActions.addToCart(data));
+  const addGoodToCart = (event: React.SyntheticEvent<EventTarget>) => {
+    const data = { good: good?.items[0] };
+    addToCartGood(data);
+  };
   useEffect(() => {
     api.getGoodByID(idGood).then((items: any) => setGood(items));
   }, [idGood]);
-
-  console.log(good?.items[0].img);
 
   return (
     <>
@@ -48,7 +46,7 @@ export const ProductPage = () => {
       <Image width={400} src={good?.items[0].img} />
       <div>{good?.items[0].description}</div>
       <div>Price:{good?.items[0].price}</div>
-      <button onClick={addGoodToCart}>В корзину</button>
+      {userAuthStatus && <button onClick={addGoodToCart}>В корзину</button>}
     </>
   );
 };

@@ -21,8 +21,6 @@ export const RegistrationForm = () => {
   const loaded = useSelector(selectorsCategories.getIsLoadedSeletor);
   const error = useSelector(selectorsCategories.getIsErrorSeletor);
 
-  console.log(categorys);
-
   const [formSended, setFormSended] = useState(LOAD_STATUSES.UNKNOWN);
 
   useEffect(() => {

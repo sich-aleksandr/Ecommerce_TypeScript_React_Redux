@@ -40,6 +40,10 @@ export const LoginPage: React.FC = () => {
     }
   }, [userAuthStatus, navigate]);
 
+  useEffect(() => {
+    document.title = 'Авторизация';
+    }, [navigate])
+
   return (
     <div className={css.container}>
       {userDataStatus === "LOADING" && <Spinner />}

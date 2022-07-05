@@ -47,7 +47,8 @@ export class Api {
 
   request = (
     url: string,
-    params?: { categoryTypeIds?: string; 
+    params?: { 
+      categoryTypeIds?: string; 
       ids?: string; 
       text?: string; 
   //     minPrice?: number; 
@@ -85,8 +86,8 @@ export class Api {
   getGoodByID = (GoodTypeId: string): Promise<{ item: Good[] }> => {
     return this.request(this.endPoints.goods, { ids: `${GoodTypeId}` });
   };
-  getGoods = ({limit,offset, sortBy, sortDirection}:{limit?:string, offset:string, sortBy?: keyof Good,  sortDirection?: "asc" | "desc"}): Promise<{ items: Good[]; total: number }> => {
-    return this.request(this.endPoints.goods, { limit:limit,offset:offset, sortBy:sortBy, sortDirection:sortDirection });
+  getGoods = ({limit,offset, sortBy, sortDirection, categoryTypeIds}:{limit?:string, offset?:string, sortBy?: keyof Good,  sortDirection?: "asc" | "desc", categoryTypeIds?:string}): Promise<{ items: Good[]; total: number }> => {
+    return this.request(this.endPoints.goods, { limit:limit,offset:offset, sortBy:sortBy, sortDirection:sortDirection, categoryTypeIds:categoryTypeIds });
   };
   getGoodsSearch = (text: string): Promise<{ items: Good[] }> => {
     return this.request(this.endPoints.goods, { text: `${text}` });
